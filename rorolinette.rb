@@ -18,6 +18,19 @@
 @file = 0
 @error = 0
 
+def checkDoubleJumpDeLigne
+  @file.seek(0, IO::SEEK_SET)
+  nbrLine = 1
+  tmp = ""
+  @file.each_line do |line|
+    if nbrLine != 1 && /^\s*$/.match(line) && /^\s*$/.match(tmp)  
+    puts "----line #{@blue}#{nbrLine}#{@default} : Double saut de ligne" 
+      @error += 1
+    end
+    tmp = line
+    nbrLine += 1
+  end
+end
 
 def checkSpaceBetweenOperators
   @file.seek(0, IO::SEEK_SET)
@@ -144,6 +157,7 @@ def checkFile(filename)
   checkSpaceAfterFct
   checkNbrParams
   checkSpaceBetweenOperators
+  checkDoubleJumpDeLigne
 end
 
 Dir.foreach(".") do |file|
