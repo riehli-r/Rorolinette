@@ -8,6 +8,11 @@
 @blue = "\033[1;34m"
 @red = "\033[1;31m"
 @default = "\033[0m"
+##------------PARAMETERS---------
+@HeaderSize = 6
+@maxLineInFct = 25
+@maxLineSize = 80
+
 ##------------GLOBALS------------
 @file = 0
 @error = 0
@@ -57,7 +62,7 @@ def checkLineLonger
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if line.size - 1 > 80
+    if line.size - 1 > @maxLineSize
       puts "----line #{@blue}#{nbrLine}#{@default} : Ligne de #{line.size} caracteres"
       @error += 1
     end
@@ -81,7 +86,7 @@ def checkFctSize
       if inFct
         lineInFct += 1
       end
-      if lineInFct > 25
+      if lineInFct > @maxLineInFct
         puts "----line #{@blue}#{nbrLine}#{@default} : Fonction de plus de 25 lignes"
         @error += 1
       end
@@ -95,7 +100,7 @@ def checkHeader
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if nbrLine <= 6 && (line.split("")[0] != '/' || line.split("")[0] != '*')
+    if nbrLine <= @HeaderSize && (line.split("")[0] != '/' || line.split("")[0] != '*')
       puts "----line #{@blue}#{nbrLine}#{@default} : Header incorrect"
       @error += 1
     end
