@@ -12,11 +12,24 @@
 @HeaderSize = 6
 @maxLineInFct = 25
 @maxLineSize = 80
+@maxParam = 4
 
 ##------------GLOBALS------------
 @file = 0
 @error = 0
 
+
+def checkNbrParams
+  @file.seek(0, IO::SEEK_SET)
+  nbrLine = 1
+  @file.each_line do |line|
+    if /,/.match(line) && line.split("").count(',') >= @maxParam
+      puts "----line #{@blue}#{nbrLine}#{@default} : Trop de parametres"
+      @error += 1
+    end
+    nbrLine += 1
+  end
+end
 
 ##------------Check if there is space between keyword and '('
 def checkSpaceBetweenKeyword
@@ -117,6 +130,7 @@ def checkFile(filename)
   checkSpaceEndLine
   checkSpaceBetweenKeyword
   checkSpaceAfterFct
+  checkNbrParams
 end
 
 Dir.foreach(".") do |file|
