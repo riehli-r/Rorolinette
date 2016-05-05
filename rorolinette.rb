@@ -12,6 +12,7 @@
 
 @error = 0
 
+
 def checkSpaceBetweenKeyword(file)
   file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -23,6 +24,19 @@ def checkSpaceBetweenKeyword(file)
     nbrLine += 1
   end
 end
+
+def checkSpaceAfterFct(file)
+  file.seek(0, IO::SEEK_SET)
+  nbrLine = 1
+  file.each_line do |line| 
+    if /\(/.match(line) && !/if|while|for|return/.match(line) && / \(/.match(line)
+      puts "----line #{@blue}#{nbrLine}#{@default} : Espace apres apres un appel fonction"
+      @error += 1
+    end
+    nbrLine += 1
+  end
+end
+
 
 def checkSpaceEndLine(file)
   file.seek(0, IO::SEEK_SET)
@@ -91,6 +105,7 @@ def checkFile(filename)
   checkLineLonger(file)
   checkSpaceEndLine(file)
   checkSpaceBetweenKeyword(file)
+  checkSpaceAfterFct(file)
 end
 
 Dir.foreach(".") do |file|
