@@ -6,14 +6,21 @@
 #
 ##########################
 
-def checkFile(filename)
-  file = File.new(filename, 'r')
+
+def checkHeader(file)
   nbrLine = 0
   file.each_line do |line| 
-    puts "line #{nbrLine} : #{line}"
+    if nbrLine <= 6 && (line.split("")[0] != '/' || line.split("")[0] != '*')
+      puts "line #{nbrLine} : Header incorrect"
+    end
     nbrLine += 1
   end
-  puts filename
+end
+
+
+def checkFile(filename)
+  file = File.new(filename, 'r')
+  checkHeader(file)
 end
 
 Dir.foreach(".") do |file|
