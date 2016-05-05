@@ -14,7 +14,32 @@
 
 @error = 0
 
+def checkFctSize(file)
+  file.seek(0, IO::SEEK_SET)
+  nbrLine = 0
+  lineInFct = 0
+  inFct = false
+  file.each_line do |line| 
+    if /^{/.match(line) || (/{\s*$/.match(line) && !inFct)
+      inFct = true
+    elsif /^}/.match(line)
+      inFct = false
+      lineInFct = 0
+    else
+      if inFct
+        lineInFct += 1
+      end
+      if lineInFct > 25
+        puts "----line #{@blue}#{nbrLine}#{@default} : Fonction de plus de 25 lignes"
+        @error += 1
+      end
+    end
+    nbrLine += 1
+  end
+end
+
 def checkHeader(file)
+  file.seek(0, IO::SEEK_SET)
   nbrLine = 0
   file.each_line do |line| 
     if nbrLine <= 6 && (line.split("")[0] != '/' || line.split("")[0] != '*')
@@ -28,6 +53,7 @@ end
 def checkFile(filename)
   file = File.new(filename, 'r')
   checkHeader(file)
+  checkFctSize(file)
 end
 
 Dir.foreach(".") do |file|
@@ -37,6 +63,3 @@ Dir.foreach(".") do |file|
   end
 end
 puts "#{@red}#{@error}#{@default} erreurs."
-
-
-
