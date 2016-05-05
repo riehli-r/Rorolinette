@@ -10,7 +10,7 @@
 @red = "\033[1;31m"
 @default = "\033[0m"
 ##------------PARAMETERS---------
-@HeaderSize = 6
+@HeaderSize = 9
 @maxLineInFct = 25
 @maxLineSize = 80
 @maxParam = 4
@@ -37,7 +37,7 @@ def checkSpaceBetweenOperators
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line|
-    if /[\+\-\/\%]/.match(line) && !/ [\+\-\/\%] /.match(line)
+    if /[\+\-\/\%]/.match(line) && !/ [\+\-\/\%] /.match(line) && !/->/.match(line) && nbrLine > @HeaderSize
       puts "----line #{@blue}#{nbrLine}#{@default} : Pas d'espace autour d'un operateur"
       @error += 1
     end
@@ -75,7 +75,7 @@ def checkSpaceAfterFct
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if /\(/.match(line) && !/if|while|for|return/.match(line) && / \(/.match(line)
+    if /\(/.match(line) && !/if|while|for|return/.match(line) && /[^=]+ \(/.match(line)
       puts "----line #{@blue}#{nbrLine}#{@default} : Espace apres apres un appel fonction"
       @error += 1
     end
