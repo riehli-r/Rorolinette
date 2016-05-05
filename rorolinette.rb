@@ -36,6 +36,7 @@ Dir.foreach(".") do |file|
     checkFile(file)
   end
 end
+puts "#{@red}#{@error}#{@default} erreurs."
 
 
 
