@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 #########################
 # Rorolinette de norme
 #
