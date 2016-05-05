@@ -25,7 +25,6 @@ def checkHeader(file)
   end
 end
 
-
 def checkFile(filename)
   file = File.new(filename, 'r')
   checkHeader(file)
@@ -33,6 +32,7 @@ end
 
 Dir.foreach(".") do |file|
   if File.extname(file) == ".c"
+    puts "#{file}:"
     checkFile(file)
   end
 end
