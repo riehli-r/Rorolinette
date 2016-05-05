@@ -50,18 +50,6 @@ def checkDoubleJumpDeLigne
   end
 end
 
-def checkSpaceBetweenOperators
-  @file.seek(0, IO::SEEK_SET)
-  nbrLine = 1
-  @file.each_line do |line|
-    if /[\+\-\/\%]/.match(line) && !/ [\+\-\/\%] /.match(line) && !/->/.match(line) && nbrLine > @HeaderSize
-      puts "----line #{@blue}#{nbrLine}#{@default} : Pas d'espace autour d'un operateur"
-      @error += 1
-    end
-    nbrLine += 1
-  end
-end
-
 def checkNbrParams
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -175,7 +163,6 @@ def checkFile(filename)
   checkSpaceBetweenKeyword
   checkSpaceAfterFct
   checkNbrParams
-  #  checkSpaceBetweenOperators
   checkDoubleJumpDeLigne
   checkInclude
 end
