@@ -5,14 +5,15 @@
 ##########################
 
 ##------------COLORS-------------
-
 @blue = "\033[1;34m"
 @red = "\033[1;31m"
 @default = "\033[0m"
-
+##------------GLOBALS------------
 @file = 0
 @error = 0
 
+
+##------------Check if there is space between keyword and '('
 def checkSpaceBetweenKeyword
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -25,6 +26,7 @@ def checkSpaceBetweenKeyword
   end
 end
 
+#------------Check if there isn't space between function and '('
 def checkSpaceAfterFct
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -37,7 +39,7 @@ def checkSpaceAfterFct
   end
 end
 
-
+##-----------Check if there isn't space at the end of lines
 def checkSpaceEndLine
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -50,6 +52,7 @@ def checkSpaceEndLine
   end
 end
 
+##----------Check if lines are not longer than 80
 def checkLineLonger
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -62,6 +65,7 @@ def checkLineLonger
   end
 end
 
+##-----------Check if functions are not longer than 25 lines
 def checkFctSize
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -86,6 +90,7 @@ def checkFctSize
   end
 end
 
+##----------Check if there is a Header
 def checkHeader
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -98,6 +103,7 @@ def checkHeader
   end
 end
 
+##----------Comment what you don't need
 def checkFile(filename)
   @file = File.new(filename, 'r')
   checkHeader
