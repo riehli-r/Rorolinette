@@ -182,7 +182,7 @@ end
 def checkDir(dirname)
   Dir.foreach(dirname) do |file|
     if File.extname(file) == ".c" || File.extname(file) == ".h"
-      puts "#{file}:"
+      puts "#{dirname}/#{file}:"
       checkFile("#{dirname}/#{file}")
     elsif File.directory?("#{dirname}/#{file}") && !/^\./.match(File.basename("#{dirname}/#{file}"))
       checkDir("#{dirname}/#{file}")
