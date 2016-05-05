@@ -14,6 +14,17 @@
 
 @error = 0
 
+def checkLineLonger(file)
+  file.seek(0, IO::SEEK_SET)
+  nbrLine = 0
+  file.each_line do |line| 
+    if line.size - 1 > 80
+      puts "----line #{@blue}#{nbrLine}#{@default} : Ligne de #{line.size} caracteres"
+      @error += 1
+    end
+    nbrLine += 1
+  end
+end
 def checkFctSize(file)
   file.seek(0, IO::SEEK_SET)
   nbrLine = 0
@@ -54,6 +65,7 @@ def checkFile(filename)
   file = File.new(filename, 'r')
   checkHeader(file)
   checkFctSize(file)
+  checkLineLonger(file)
 end
 
 Dir.foreach(".") do |file|
