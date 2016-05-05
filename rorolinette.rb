@@ -19,13 +19,30 @@
 @file = 0
 @error = 0
 
+def checkInclude
+  @file.seek(0, IO::SEEK_SET)
+  nbrLine = 1
+  localInclude = false
+  @file.each_line do |line|
+    if /#include\s+"/.match(line)
+      localInclude = true
+    end
+    if localInclude && /#include\s+</.match(line)
+      puts "----line #{@blue}#{nbrLine}#{@default} : #include dans le mauvais ordre" 
+      @error += 1
+    end
+    tmp = line
+    nbrLine += 1
+  end
+end
+
 def checkDoubleJumpDeLigne
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   tmp = ""
   @file.each_line do |line|
     if nbrLine != 1 && /^\s*$/.match(line) && /^\s*$/.match(tmp)  
-    puts "----line #{@blue}#{nbrLine}#{@default} : Double saut de ligne" 
+      puts "----line #{@blue}#{nbrLine}#{@default} : Double saut de ligne" 
       @error += 1
     end
     tmp = line
@@ -158,8 +175,9 @@ def checkFile(filename)
   checkSpaceBetweenKeyword
   checkSpaceAfterFct
   checkNbrParams
-#  checkSpaceBetweenOperators
+  #  checkSpaceBetweenOperators
   checkDoubleJumpDeLigne
+  checkInclude
 end
 
 Dir.foreach(".") do |file|
