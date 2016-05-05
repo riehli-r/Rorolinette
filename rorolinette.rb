@@ -28,7 +28,7 @@ def checkInclude
       localInclude = true
     end
     if localInclude && /#include\s+</.match(line)
-      puts "----line #{@blue}#{nbrLine}#{@default} : #include dans le mauvais ordre" 
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : #include dans le mauvais ordre" 
       @error += 1
     end
     tmp = line
@@ -42,7 +42,7 @@ def checkDoubleJumpDeLigne
   tmp = ""
   @file.each_line do |line|
     if nbrLine != 1 && /^\s*$/.match(line) && /^\s*$/.match(tmp)  
-      puts "----line #{@blue}#{nbrLine}#{@default} : Double saut de ligne" 
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Double saut de ligne" 
       @error += 1
     end
     tmp = line
@@ -55,7 +55,7 @@ def checkNbrParams
   nbrLine = 1
   @file.each_line do |line|
     if /,/.match(line) && line.split("").count(',') >= @maxParam && /^[\S]+/.match(line)
-      puts "----line #{@blue}#{nbrLine}#{@default} : Trop de parametres"
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Trop de parametres"
       @error += 1
     end
     nbrLine += 1
@@ -69,7 +69,7 @@ def checkSpaceBetweenKeyword
   @file.each_line do |line| 
     #if /^\s+[^\(]+[^\( ]+\(/.match(line)
     if /(if|while|for|return)\(/.match(line)
-      puts "----line #{@blue}#{nbrLine}#{@default} : Pas d'espace apres un mot cle"
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Pas d'espace apres un mot cle"
       @error += 1
     end
     nbrLine += 1
@@ -82,7 +82,7 @@ def checkSpaceAfterFct
   nbrLine = 1
   @file.each_line do |line| 
     if /\(/.match(line) && !/if|while|for|return/.match(line) && /[^=,]+ \(/.match(line) && !/\)\(/.match(line)
-      puts "----line #{@blue}#{nbrLine}#{@default} : Espace apres apres un appel fonction"
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Espace apres apres un appel fonction"
       @error += 1
     end
     nbrLine += 1
@@ -95,7 +95,7 @@ def checkSpaceEndLine
   nbrLine = 1
   @file.each_line do |line| 
     if /\s+\s$/.match(line)
-      puts "----line #{@blue}#{nbrLine}#{@default} : Espace ou tabulation en fin de ligne"
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Espace ou tabulation en fin de ligne"
       @error += 1
     end
     nbrLine += 1
@@ -108,7 +108,7 @@ def checkLineLonger
   nbrLine = 1
   @file.each_line do |line| 
     if line.size - 1 > @maxLineSize
-      puts "----line #{@blue}#{nbrLine}#{@default} : Ligne de #{line.size} caracteres"
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Ligne de #{line.size} caracteres"
       @error += 1
     end
     nbrLine += 1
@@ -132,7 +132,7 @@ def checkFctSize
         lineInFct += 1
       end
       if lineInFct > @maxLineInFct
-        puts "----line #{@blue}#{nbrLine}#{@default} : Fonction de plus de 25 lignes"
+        puts "--ligne #{@blue}#{nbrLine}#{@default} : Fonction de plus de 25 lignes"
         @error += 1
       end
     end
@@ -146,7 +146,7 @@ def checkHeader
   nbrLine = 1
   @file.each_line do |line| 
     if nbrLine <= @HeaderSize && line.split("")[0] != '/' && line.split("")[0] != '*'
-      puts "----line #{@blue}#{nbrLine}#{@default} : Header incorrect"
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Header incorrect"
       @error += 1
     end
     nbrLine += 1
