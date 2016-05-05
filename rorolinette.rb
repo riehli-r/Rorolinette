@@ -14,9 +14,21 @@
 
 @error = 0
 
+def checkSpaceEndLine(file)
+  file.seek(0, IO::SEEK_SET)
+  nbrLine = 1
+  file.each_line do |line| 
+    if /\s+\s$/.match(line)
+      puts "----line #{@blue}#{nbrLine}#{@default} : Espace ou tabulation en fin de ligne"
+      @error += 1
+    end
+    nbrLine += 1
+  end
+end
+
 def checkLineLonger(file)
   file.seek(0, IO::SEEK_SET)
-  nbrLine = 0
+  nbrLine = 1
   file.each_line do |line| 
     if line.size - 1 > 80
       puts "----line #{@blue}#{nbrLine}#{@default} : Ligne de #{line.size} caracteres"
@@ -25,9 +37,10 @@ def checkLineLonger(file)
     nbrLine += 1
   end
 end
+
 def checkFctSize(file)
   file.seek(0, IO::SEEK_SET)
-  nbrLine = 0
+  nbrLine = 1
   lineInFct = 0
   inFct = false
   file.each_line do |line| 
@@ -51,7 +64,7 @@ end
 
 def checkHeader(file)
   file.seek(0, IO::SEEK_SET)
-  nbrLine = 0
+  nbrLine = 1
   file.each_line do |line| 
     if nbrLine <= 6 && (line.split("")[0] != '/' || line.split("")[0] != '*')
       puts "----line #{@blue}#{nbrLine}#{@default} : Header incorrect"
@@ -66,6 +79,7 @@ def checkFile(filename)
   checkHeader(file)
   checkFctSize(file)
   checkLineLonger(file)
+  checkSpaceEndLine(file)
 end
 
 Dir.foreach(".") do |file|
