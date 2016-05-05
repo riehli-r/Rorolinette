@@ -19,6 +19,18 @@
 @file = 0
 @error = 0
 
+def checkMultiple
+  @file.seek(0, IO::SEEK_SET)
+  nbrLine = 1
+  @file.each_line do |line|
+    if !/^\s+for/.match(line) && line.split("").count(';') > 1
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Plusieurs ';'" 
+      @error += 1
+    end
+    nbrLine += 1
+  end
+end
+
 def checkInclude
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
@@ -31,7 +43,6 @@ def checkInclude
       puts "--ligne #{@blue}#{nbrLine}#{@default} : #include dans le mauvais ordre" 
       @error += 1
     end
-    tmp = line
     nbrLine += 1
   end
 end
@@ -165,6 +176,7 @@ def checkFile(filename)
   checkNbrParams
   checkDoubleJumpDeLigne
   checkInclude
+  checkMultiple
 end
 
 def checkDir(dirname)
