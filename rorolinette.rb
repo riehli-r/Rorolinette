@@ -49,7 +49,7 @@ def checkNbrParams
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line|
-    if /,/.match(line) && line.split("").count(',') >= @maxParam
+    if /,/.match(line) && line.split("").count(',') >= @maxParam && /^[\S]+/.match(line)
       puts "----line #{@blue}#{nbrLine}#{@default} : Trop de parametres"
       @error += 1
     end
@@ -62,7 +62,8 @@ def checkSpaceBetweenKeyword
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if /^\s+[^\(]+[^\( ]+\(/.match(line)
+    #if /^\s+[^\(]+[^\( ]+\(/.match(line)
+    if /(if|while|for|return)\(/.match(line)
       puts "----line #{@blue}#{nbrLine}#{@default} : Pas d'espace apres un mot cle"
       @error += 1
     end
@@ -75,7 +76,7 @@ def checkSpaceAfterFct
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if /\(/.match(line) && !/if|while|for|return/.match(line) && /[^=]+ \(/.match(line)
+    if /\(/.match(line) && !/if|while|for|return/.match(line) && /[^=,]+ \(/.match(line) && !/\)\(/.match(line)
       puts "----line #{@blue}#{nbrLine}#{@default} : Espace apres apres un appel fonction"
       @error += 1
     end
@@ -139,7 +140,7 @@ def checkHeader
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if nbrLine <= @HeaderSize && (line.split("")[0] != '/' || line.split("")[0] != '*')
+    if nbrLine <= @HeaderSize && line.split("")[0] != '/' && line.split("")[0] != '*'
       puts "----line #{@blue}#{nbrLine}#{@default} : Header incorrect"
       @error += 1
     end
@@ -157,7 +158,7 @@ def checkFile(filename)
   checkSpaceBetweenKeyword
   checkSpaceAfterFct
   checkNbrParams
-  checkSpaceBetweenOperators
+#  checkSpaceBetweenOperators
   checkDoubleJumpDeLigne
 end
 
