@@ -167,10 +167,16 @@ def checkFile(filename)
   checkInclude
 end
 
-Dir.foreach(".") do |file|
-  if File.extname(file) == ".c" || File.extname(file) == ".h"
-    puts "#{file}:"
-    checkFile(file)
+def checkDir(dirname)
+  Dir.foreach(dirname) do |file|
+    if File.extname(file) == ".c" || File.extname(file) == ".h"
+      puts "#{file}:"
+      checkFile("#{dirname}/#{file}")
+    elsif File.directory?("#{dirname}/#{file}") && !/^\./.match(File.basename("#{dirname}/#{file}"))
+      checkDir("#{dirname}/#{file}")
+    end
   end
 end
+
+checkDir(".")
 puts "#{@red}#{@error}#{@default} erreurs."
