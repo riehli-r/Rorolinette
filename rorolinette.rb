@@ -31,6 +31,7 @@ def checkMultiple
   end
 end
 
+##-----------Check if local include are not after global include
 def checkInclude
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
