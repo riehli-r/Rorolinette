@@ -105,7 +105,7 @@ def checkSpaceEndLine
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if /\s+\s$/.match(line)
+    if /\s+\s$/.match(line) && nbrLine > @HeaderSize
       puts "--ligne #{@blue}#{nbrLine}#{@default} : Espace ou tabulation en fin de ligne"
       @error += 1
     end
