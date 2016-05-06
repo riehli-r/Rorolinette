@@ -92,7 +92,7 @@ def checkSpaceAfterFct
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if /\(/.match(line) && !/if|while|for|return/.match(line) && /[^=,]+ \(/.match(line) && !/\)\(/.match(line)
+    if /\(/.match(line) && !/if|while|for|return/.match(line) && /[^=,\*\+\-]+ \(/.match(line) && !/\)\(/.match(line)
       puts "--ligne #{@blue}#{nbrLine}#{@default} : Espace apres apres un appel fonction"
       @error += 1
     end
