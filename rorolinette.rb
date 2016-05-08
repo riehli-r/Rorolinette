@@ -144,7 +144,7 @@ def checkFctSize
         lineInFct += 1
       end
       if lineInFct > @maxLineInFct
-        puts "--ligne #{@blue}#{nbrLine}#{@default} : Fonction de plus de 25 lignes"
+        puts "--ligne #{@blue}#{nbrLine}#{@default} : Fonction de plus de #{@maxLineInFct} lignes"
         @error += 1
       end
     end
