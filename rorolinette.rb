@@ -119,7 +119,7 @@ def checkLineLonger
   @file.seek(0, IO::SEEK_SET)
   nbrLine = 1
   @file.each_line do |line| 
-    if line.size - 1 > @maxLineSize
+    if line.size - 1 > @maxLineSize && (nbrLine != 2 && line[0] != '*')
       puts "--ligne #{@blue}#{nbrLine}#{@default} : Ligne de #{line.size} caracteres"
       @error += 1
     end
