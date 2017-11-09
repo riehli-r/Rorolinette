@@ -80,7 +80,7 @@ def checkSpaceBetweenKeyword
   nbrLine = 1
   @file.each_line do |line| 
     #if /^\s+[^\(]+[^\( ]+\(/.match(line)
-    if /(if|while|for|return)\(/.match(line)
+    if /\b(if|while|for|return)\(/.match(line)
       puts "--ligne #{@blue}#{nbrLine}#{@default} : Pas d'espace apres un mot cle"
       @error += 1
     end
