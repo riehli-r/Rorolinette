@@ -197,7 +197,18 @@ def checkSpaceAfterComma
     end
     nbrLine += 1;
   end
+end
 
+##----------Check space after comma
+def checkSpaceAfterPlusOperator
+  @file.seek(0, IO::SEEK_SET)
+  nbrLine = 1;
+  @file.each_line do |line|
+    if /[\+][^=\+; ]+/.match(line) || /[^\+ ]+[\+][^+]{1}/.match(line)
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Pas assez d'espace autour de l'operateur +"
+    end
+    nbrLine += 1;
+  end
 end
 
 ##----------Comment what you don't need
@@ -215,6 +226,7 @@ def checkFile(filename)
   checkInclude
   checkMultiple
   checkSpaceAfterComma
+  checkSpaceAfterPlusOperator
 end
 
 def checkDir(dirname)
