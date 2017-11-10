@@ -187,6 +187,19 @@ def checkNbrFunction
   end
 end
 
+##----------Check space after comma
+def checkSpaceAfterComma
+  @file.seek(0, IO::SEEK_SET)
+  nbrLine = 1;
+  @file.each_line do |line|
+    if /,[\S]+/.match(line)
+      puts "--ligne #{@blue}#{nbrLine}#{@default} : Pas d'espace après la virgule"
+    end
+    nbrLine += 1;
+  end
+
+end
+
 ##----------Comment what you don't need
 def checkFile(filename)
   @file = File.new(filename, 'r')
@@ -201,6 +214,7 @@ def checkFile(filename)
   checkDoubleJumpDeLigne
   checkInclude
   checkMultiple
+  checkSpaceAfterComma
 end
 
 def checkDir(dirname)
