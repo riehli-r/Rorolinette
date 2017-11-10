@@ -1,7 +1,8 @@
 Rorolinette
 =======
 
-##Install
+Install
+---
 ```
   git clone https://github.com/riehli-r/Rorolinette.git
   cd Rorolinette
