@@ -14,6 +14,7 @@
 @maxLineInFct = 25
 @maxLineSize = 80
 @maxParam = 4
+@maxFctInFile = 5
 
 ##------------GLOBALS------------
 @file = 0
@@ -165,10 +166,32 @@ def checkHeader
   end
 end
 
+##----------Check nbr function in file
+def checkNbrFunction
+  @file.seek(0, IO::SEEK_SET)
+  nbrFct = 0
+  inFct = false
+  nbrLine = 1;
+  @file.each_line do |line| 
+    if /^{/.match(line) || (/\).+{\s*$/.match(line) && !inFct)
+      inFct = true
+      nbrFct += 1
+      if nbrFct > @maxFctInFile
+        puts "--ligne #{@blue}#{nbrLine}#{@default} : #{nbrFct} fonctions dans le fichier"
+        @error += 1
+      end
+    elsif /^}/.match(line)
+      inFct = false
+    end
+    nbrLine += 1
+  end
+end
+
 ##----------Comment what you don't need
 def checkFile(filename)
   @file = File.new(filename, 'r')
   checkHeader
+  checkNbrFunction
   checkFctSize
   checkLineLonger
   checkSpaceEndLine
