@@ -1,10 +1,16 @@
 Rorolinette
 =======
 
+> Ruby tool allowing you to lint your code :)
+
 Install
 ---
 ```
-  git clone https://github.com/riehli-r/Rorolinette.git
-  cd Rorolinette
-  sudo ln -s $(pwd)/rorolinette.rb /usr/bin/rorolinette
+  wget -O - https://raw.githubusercontent.com/riehli-r/Rorolinette/master/install.sh | sudo bash -
+```
+
+Usage
+---
+```
+  rorolinette
 ```
